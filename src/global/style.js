@@ -1,6 +1,13 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: "Quicksand";
+    src: url("/fonts/static/Quicksand-Bold.ttf");
+    font-style: bold;
+    font-weight: 600;
+    font-display: swap;
+  }
   height: 100%;
   width: 100%;
   user-select: none;
@@ -47,7 +54,7 @@ const GlobalStyle = createGlobalStyle`
     overflow-y: hidden;
     height: 100vh;
     width: 100vw;
-    font-family: Merriweather;
+    font-family: Quicksand;
     overflow: hidden;
   }
 `;
