@@ -29,7 +29,6 @@ const GlobalStyle = createGlobalStyle`
     pointer-events: none;
     border: none;
     outline: none;
-    background: #92bb83;
   }
   a {
     text-decoration: none;
