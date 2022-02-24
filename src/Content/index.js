@@ -1,40 +1,37 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import { useQuery } from "react-query";
-import { useLocation } from "react-router-dom";
 import Card from "../Card";
-
-const marvelKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
+import useComics from "../hooks/useComics";
 
 const Wrapper = styled.div`
+  height: calc(100vh + 300px);
+  overflow-y: scroll;
+  flex-wrap: wrap;
+
   display: flex;
-  width: 100%;
-  height: 100%;
+  align-items: center;
+  justify-content: center;
 `;
 
-const fetchMarvel = () => fetch(
-  'https://gateway.marvel.com:443/v1/public/comics?format=digital%20comic&apikey=${marvelKey}'
-).then((res) => res.json());
+const Content = ({ type }) => {
+  const fetchNext = true;
+  const { comics } = useComics(type, fetchNext);
+  const [display, setDisplay] = useState([]);
 
-const Content = ({}) => {
-  const cards = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-  const { isLoading, isError, data, error } = useQuery("comic", fetchMarvel);
-
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
-  console.log(marvelKey, data)
+  useEffect(() => {
+    if (!comics?.length) {
+      console.log('e', display, comics);
+      setDisplay([...display, comics])
+    } 
+  }, [comics?.length])
 
   return (
     <Wrapper>
-      {cards.map((card) => (
-        <Card data={card} />
-      ))}
+      {display.map((card) => {
+        console.log(card);
+        if (!card) return;
+        return <Card data={card} />;
+      })}
     </Wrapper>
   );
 };

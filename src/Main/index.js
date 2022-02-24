@@ -17,9 +17,9 @@ const Main = () => (
     <Breadcrumbs />
     <Routes>
       <Route index element={<Content />} />
-      <Route path="comic" element={<Content />} />
-      <Route path="magazine" element={<Content />} />
-      <Route path="digital-comic" element={<Content />} />
+      <Route path="comic" element={<Content type="comic"/>} />
+      <Route path="magazine" element={<Content type="magazine"/>} />
+      <Route path="digital-comic" element={<Content type="digital%20comic"/>} />
     </Routes>
   </MainWrapper>
 );
