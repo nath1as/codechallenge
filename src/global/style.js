@@ -24,7 +24,6 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     user-drag: none;
-    font-size: 14px;
   }
   input, textarea {
     user-select: auto;
