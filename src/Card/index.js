@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -67,22 +67,28 @@ const getCheapest = (prices) => {
   return cheapest;
 };
 
-const Card = ({ data }) => {
+const Card = ({ data, setPopup }) => {
   const [price, setPrice] = useState(0);
   const title = data?.title;
   const path = data?.thumbnail?.path;
   const imageUrl = path + "/portrait_fantastic." + data?.thumbnail?.extension;
 
   useEffect(() => {
-    setPrice(getCheapest(data?.prices))
-  }, [data?.prices])
+    setPrice(getCheapest(data?.prices));
+  }, [data?.prices]);
 
   return (
     <Wrapper>
-      {!!path ? <Img src={imageUrl} alt={title + " cover"}/> : <LoadingImg alt={"loading ..."} />}
+      {!!path ? (
+        <Img src={imageUrl} alt={title + " cover"} />
+      ) : (
+        <LoadingImg alt={"loading ..."} />
+      )}
       {!!title ? <Title>{title}</Title> : <LoadingTitle />}
-      { <Price>{`${price} $`}</Price>}
-      <Button>More Info</Button>
+      {<Price>{`${price} $`}</Price>}
+      <Button onClick={() => setPopup({ active: true, data })}>
+        More Info
+      </Button>
     </Wrapper>
   );
 };

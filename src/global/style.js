@@ -8,6 +8,13 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 600;
     font-display: swap;
   }
+  @font-face {
+    font-family: "Quicksand";
+    src: url("/fonts/static/Quicksand-Regular.ttf");
+    font-style: regular;
+    font-weight: 300;
+    font-display: swap;
+  }
   height: 100%;
   width: 100%;
   user-select: none;
@@ -51,6 +58,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: Quicksand;
+    font-weight: bold;
     overflow: hidden;
   }
 `;
