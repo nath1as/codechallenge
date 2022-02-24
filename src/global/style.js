@@ -50,9 +50,6 @@ const GlobalStyle = createGlobalStyle`
     list-style-type: none;
   }
   body {
-    overflow-y: hidden;
-    height: 100vh;
-    width: 100vw;
     font-family: Quicksand;
     overflow: hidden;
   }

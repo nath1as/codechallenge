@@ -18,6 +18,12 @@ const Wrapper = styled.div`
 
 const Logo = styled.div`
   padding-right: 60px;
+  @media (max-width: 768px) {
+    padding-right: 30px;
+  }
+  @media (max-width: 492px) {
+    padding-right: 10px;
+  }
   & > img {
     width: 84px;
     height: 72px;
@@ -33,6 +39,14 @@ const Tabs = styled.div`
 `;
 const Tab = styled.div`
   padding-right: 80px;
+  @media (max-width: 768px) {
+    padding-right: 20px;
+    font-size: 18px;
+  }
+  @media (max-width: 492px) {
+    padding-right: 10px;
+    font-size: 14px;
+  }
   & > a {
     color: ${({ active }) => (active ? "red" : "white")};
   }
