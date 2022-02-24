@@ -4,7 +4,7 @@ import Card from "../Card";
 import useComics from "../hooks/useComics";
 
 const Wrapper = styled.div`
-  height: 83vh;
+  height: calc(100vh - 112px - 45px);
   overflow-y: scroll;
   flex-wrap: wrap;
 

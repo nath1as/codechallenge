@@ -43,6 +43,12 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const getCheapest = (prices) => {
+  const pricesArray = prices.map( price => price.price);
+  const cheapest = Math.min(...pricesArray)
+
+  return cheapest;
+}
 const Card = ({ data }) => {
   const title = data.title;
   const price = data.prices[0]?.price; // TODO: find cheapest
