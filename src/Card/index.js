@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
   position: relative;
-  width: 207px;
+  width: 203px;
   height: 395px;
   border: 2px solid #1d1d1d;
   border-radius: 5px;
@@ -16,13 +16,27 @@ const Wrapper = styled.div`
   justify-content: flex-start;
 `;
 const Img = styled.img`
+  width: 161px;
+`;
+const LoadingImg = styled.div`
   height: 242px;
   width: 161px;
+  background: lightgray;
+`;
+const LoadingTitle = styled.div`
+  height: 2rem;
+  background: lightgray;
+  width: 150px;
+  margin-top: 20px;
+  font-size: 19px;
+  text-align: center;
+  overflow: hidden;
 `;
 const Title = styled.div`
   margin-top: 20px;
   font-size: 19px;
   text-align: center;
+  overflow: hidden;
 `;
 const Price = styled.div`
   margin-top: 5px;
@@ -33,7 +47,7 @@ const Button = styled.button`
   position: absolute;
   bottom: 10px;
   left: 40px;
-  width: 139px;
+  width: 140px;
   height: 34px;
   background: #dd2c2c;
   color: white;
@@ -44,21 +58,29 @@ const Button = styled.button`
 `;
 
 const getCheapest = (prices) => {
-  const pricesArray = prices.map( price => price.price);
-  const cheapest = Math.min(...pricesArray)
+  if (!prices?.length) return 0;
+
+  const pricesArray = prices?.map((price) => price.price) ?? [];
+  const cheapest = Math.min(...pricesArray);
 
   return cheapest;
-}
+};
+
 const Card = ({ data }) => {
-  const title = data.title;
-  const price = data.prices[0]?.price; // TODO: find cheapest
-  const imageUrl = data.thumbnail.path + "." + data.thumbnail.extension;
+  const [price, setPrice] = useState(0);
+  const title = data?.title;
+  const path = data?.thumbnail?.path;
+  const imageUrl = path + "/portrait_fantastic." + data?.thumbnail?.extension;
+
+  useEffect(() => {
+    setPrice(getCheapest(data?.prices))
+  }, [data?.prices])
 
   return (
     <Wrapper>
-      <Img src={imageUrl} />
-      <Title>{title}</Title>
-      <Price>{`${price} $`}</Price>
+      {!!path ? <Img src={imageUrl} /> : <LoadingImg />}
+      {!!title ? <Title>{title}</Title> : <LoadingTitle />}
+      { <Price>{`${price} $`}</Price>}
       <Button>More Info</Button>
     </Wrapper>
   );

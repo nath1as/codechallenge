@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "./logo.svg";
@@ -36,7 +36,6 @@ const Tab = styled.div`
 
 const Header = () => {
   const { pathname } = useLocation();
-  console.log(pathname);
 
   return (
     <Wrapper>

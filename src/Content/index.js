@@ -12,21 +12,19 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 const Content = ({ type }) => {
   const fetchNext = true;
-  const { comics } = useComics(type, fetchNext);
-  const [display, setDisplay] = useState([]);
+  const comics = useComics(type, fetchNext);
+  const [display, setDisplay] = useState([...Array(20)]);
 
   useEffect(() => {
-    if (!!comics[type])
-    setDisplay([...comics[type]]);
+    if (!!comics[type]) setDisplay([...comics[type]]);
   }, [type, comics]);
 
   return (
     <Wrapper>
       {display.map((card) => {
-        return <Card data={card} key={card.id}/>;
+        return <Card data={card} key={card?.id} />;
       })}
     </Wrapper>
   );

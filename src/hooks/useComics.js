@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 const marvelKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
-
+const filledArray = [...Array(20)];
 const comicsDefault = {
-  all: [],
-  magazine: [],
-  comic: [],
-  "digital%20comic": [],
+  all: filledArray,
+  magazine: filledArray,
+  comic: filledArray,
+  "digital%20comic": filledArray,
 };
 
 const useComics = (type, fetchNext) => {
@@ -26,7 +26,7 @@ const useComics = (type, fetchNext) => {
           setIsLoading(false);
         }
       });
-  }, [type]);
+  }, [type, url]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -44,9 +44,10 @@ const useComics = (type, fetchNext) => {
 
       setComics(update);
     }
+    // eslint-disable-next-line
   }, [newComics, isLoading]);
 
-  return { comics, isLoading };
+  return comics;
 };
 
 export default useComics;
