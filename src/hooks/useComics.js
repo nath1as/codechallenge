@@ -1,32 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "react-query";
 const marvelKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
 
-const useComics = (type, fetchNext) => {
-  const [comics, setComics] = useState([]);
-  const offset = comics.length;
-  const format = !!type ? "format=" + type : "";
-  const { isLoading, isError, data, error } = useQuery(type ?? "all", () =>
-    fetch(
-      `https://gateway.marvel.com:443/v1/public/comics?&limit=20&offset=${offset}${format}&apikey=${marvelKey}`
-    ).then((res) => res.json())
-  );
+const comicsDefault = {
+  all: [],
+  magazine: [],
+  comic: [],
+  "digital%20comic": [],
+};
 
+const useComics = (type, fetchNext) => {
+  const [comics, setComics] = useState(() => comicsDefault);
+  const [isLoading, setIsLoading] = useState(false);
+  const [newComics, setNewComics] = useState([]);
+  const offset = comics?.[type]?.length;
+  const format = type !== "all" ? "format=" + type : "";
+  const url = `https://gateway.marvel.com:443/v1/public/comics?${format}&limit=20&offset=${offset}&apikey=${marvelKey}`;
 
   useEffect(() => {
-    if (!isLoading && !!comics.length && !!data?.data?.results) {
-      setComics([...comics, ...data.data.results]);
+    setIsLoading(true);
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        if (!!data) {
+          setNewComics(data?.data?.results);
+          setIsLoading(false);
+        }
+      });
+  }, [type]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      const payload = [];
+      const oldData = comics ?? [];
+      newComics.forEach((comic) => {
+        if (!comics[type].includes(comic)) {
+          payload.push(comic);
+        }
+      });
+      const update = {
+        ...oldData,
+        [type]: payload,
+      };
+
+      setComics(update);
     }
-  }, [data?.data?.results]);
+  }, [newComics, isLoading]);
 
-  //useEffect(() => {
-    //if (!!fetchNext && !isLoading && !!data?.data?.results) {
-      //setComics([...comics, ...data.data.results]);
-    //}
-  //}, [data, fetchNext]);
-  console.log('hook', type, format, data?.data.results);
-
-  return { comics: data?.data?.results, isLoading, error };
+  return { comics, isLoading };
 };
 
 export default useComics;

@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Card from "../Card";
 import useComics from "../hooks/useComics";
 
 const Wrapper = styled.div`
-  height: calc(100vh + 300px);
+  height: 83vh;
   overflow-y: scroll;
   flex-wrap: wrap;
 
@@ -19,18 +19,14 @@ const Content = ({ type }) => {
   const [display, setDisplay] = useState([]);
 
   useEffect(() => {
-    if (!comics?.length) {
-      console.log('e', display, comics);
-      setDisplay([...display, comics])
-    } 
-  }, [comics?.length])
+    if (!!comics[type])
+    setDisplay([...comics[type]]);
+  }, [type, comics]);
 
   return (
     <Wrapper>
       {display.map((card) => {
-        console.log(card);
-        if (!card) return;
-        return <Card data={card} />;
+        return <Card data={card} key={card.id}/>;
       })}
     </Wrapper>
   );
