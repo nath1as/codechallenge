@@ -18,6 +18,10 @@ const Wrapper = styled.div`
 
 const Logo = styled.div`
   padding-right: 60px;
+  & > img {
+    width: 84px;
+    height: 72px;
+  }
 `;
 const Tabs = styled.div`
   display: flex;

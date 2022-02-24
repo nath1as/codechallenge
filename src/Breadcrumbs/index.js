@@ -10,7 +10,7 @@ const crumbNames = {
 };
 
 const Crumbs = styled.div`
-  color: #828282;
+  color: #666;
   padding-left: 23px;
   padding-top: 25px;
 `;

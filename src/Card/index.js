@@ -17,6 +17,7 @@ const Wrapper = styled.div`
 `;
 const Img = styled.img`
   width: 161px;
+  height: 242px;
 `;
 const LoadingImg = styled.div`
   height: 242px;
@@ -78,7 +79,7 @@ const Card = ({ data }) => {
 
   return (
     <Wrapper>
-      {!!path ? <Img src={imageUrl} /> : <LoadingImg />}
+      {!!path ? <Img src={imageUrl} alt={title + " cover"}/> : <LoadingImg alt={"loading ..."} />}
       {!!title ? <Title>{title}</Title> : <LoadingTitle />}
       { <Price>{`${price} $`}</Price>}
       <Button>More Info</Button>

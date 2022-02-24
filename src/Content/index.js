@@ -23,8 +23,8 @@ const Content = ({ type }) => {
 
   return (
     <Wrapper>
-      {display.map((card) => {
-        return <Card data={card} key={card?.id} />;
+      {display.map((card, idx) => {
+        return <Card data={card} key={card?.id ?? idx} />;
       })}
     </Wrapper>
   );
