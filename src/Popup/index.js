@@ -85,6 +85,10 @@ const getCheapest = (prices) => {
   return cheapest;
 };
 
+const transform = (data, type) => data.items
+    .map((item) => item.name)
+    .join(data.items.length > 1 ? ", " : "");
+
 const Popup = ({ data, setPopup }) => {
   const title = data?.title;
   const path = data?.thumbnail?.path;
@@ -95,12 +99,9 @@ const Popup = ({ data, setPopup }) => {
     .map((date) => (date.type === "focDate" ? date.date : ""))
     .map((date) => (!!date ? date.split("-")[0] : ""))
     .join("");
-  const char = data.characters.items
-    .map((item) => item.name)
-    .join(data.characters.items.length > 1 ? ", " : "");
-  const creators = data.creators.items
-    .map((item) => item.name)
-    .join(data.creators.items.length > 1 ? ", " : "");
+
+  const char = transform(data.characters);
+  const creators = transform(data.creators);
 
   return (
     <Wrapper>

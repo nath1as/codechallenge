@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import useInfiniteLoader from "react-use-infinite-loader";
 import styled from "styled-components";
 import useComics from "../hooks/useComics";
@@ -17,40 +17,36 @@ const Wrapper = styled.div`
 
 const Content = ({ type }) => {
   const limit = 20;
-  const ref = useRef(null);
-  const [display, setDisplay] = useState([...Array(limit)]);
+  const [display, setDisplay] = useState(() => [...Array(limit)]);
   const [popup, setPopup] = useState(() => ({ active: false }));
-  const [fetchNext, setFetchNext] = useState(false);
-  const { comics } = useComics(type, limit, fetchNext, setFetchNext);
-  const loadMore = useCallback(() => {
-    if (!fetchNext?.[display.length]) setFetchNext({ [display.length]: true });
-    // eslint-disable-next-line
-  }, [display.length]);
-  const { loaderRef } = useInfiniteLoader({ loadMore, canLoadMore: true });
+  const [fetchNext, setFetchNext] = useState(true);
+  const { comics, isLoading } = useComics(type, limit, fetchNext, setFetchNext);
 
   useEffect(() => {
-    if (!!comics[type]) setDisplay([...comics[type]]);
-  }, [type, comics]);
+    if (!isLoading && !!comics[type].length) setDisplay([...comics[type]]);
+  }, [type, comics, isLoading]);
+
+  const loadMore = useCallback(() => {
+    if (!fetchNext?.[display.length]) {
+      setFetchNext({ [display.length]: true });
+    }
+    // eslint-disable-next-line
+  }, [display.length]);
+
+  const { loaderRef } = useInfiniteLoader({ loadMore, canLoadMore: true });
+
 
   return (
-    <Wrapper
-      onScroll={() => {
-        return null;
-      }}
-    >
+    <Wrapper>
       {!!popup.active && <Popup data={popup.data} setPopup={setPopup} />}
       {display.map((card, idx) => {
         const trigger = display.length - 11 === idx;
+        const key = `${card?.id ?? "loader"}-${idx}`;
 
         return (
           <>
-            <Card
-              data={card}
-              key={card?.id + idx ?? idx}
-              setPopup={setPopup}
-              ref={ref}
-            />
-            {trigger && <div ref={loaderRef} />}
+            <Card data={card} key={key} setPopup={setPopup} />
+            {trigger && <div ref={loaderRef} key={"trigger"} />}
           </>
         );
       })}

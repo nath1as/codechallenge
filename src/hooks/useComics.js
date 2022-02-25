@@ -32,8 +32,8 @@ const useComics = (type, limit, fetchNext, setFetchNext) => {
       return;
     setFetchNext(false);
     fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
+      ?.then((response) => response.json())
+      ?.then((data) => {
         if (!!data) {
           setNewComics(data?.data?.results);
           setIsLoading(false);
